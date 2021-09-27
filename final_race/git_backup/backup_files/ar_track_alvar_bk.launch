@@ -1,0 +1,79 @@
+<launch>
+
+	<!-- constants -->
+	<arg name="marker_size" default="4.4" />
+	<arg name="max_new_marker_error" default="0.08" />
+	<arg name="max_track_error" default="0.2" />
+	<arg name="camera" default="/zed/rgb" />
+	<arg name="cam_image_topic" default="$(arg camera)/image_raw_color" />
+	<arg name="cam_info_topic" default="$(arg camera)/camera_info" />
+	<arg name="output_frame" default="camera_link"/>
+	
+	<!-- args for zed -->
+	<arg name="svo_file" default=""/>
+	<arg name="zed_id" default ="0"/>
+
+    <!-- args for teleop -->
+    <arg name="racecar_version" default="$(optenv RACECAR_VERSION racecar-v2)" doc="system version [racecar-v1, racecar-v2]" />
+    <arg name="imu_model" default="$(optenv RACECAR_IMU razor_imu)" doc="imu sensor types [razor_imu, razor_imu_m0]" />
+  	<arg name="run_camera" default="false"/>
+	
+	<!-- args for tracker-->
+	<!--<arg name="marker_size" default="20.5" />
+  	<arg name="max_new_marker_error" default="0.08" />
+  	<arg name="max_track_error" default="0.2" />
+  	<arg name="camera" default="/zed/rgb" />
+  	<arg name="cam_image_topic" default="$(arg camera)/image_raw_color" />
+  	<arg name="cam_info_topic"  default="$(arg camera)/camera_info" />
+  	<arg name="output_frame" default="camera_link"/>-->
+	
+	<!-- args for localize -->
+	
+	
+
+
+	<!-- fix transform frame -->
+	<node name="camera_linker" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0
+0 1 /zed_current_frame /camera_link"/>
+
+	
+
+	<!-- launch alvar -->
+	<node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect"
+	respawn="false" output="screen">
+		<param name="marker_size" type="double" value="$(arg marker_size)" />
+		<param name="max_new_marker_error" type="double" value="$(arg max_new_marker_error)" />
+		<param name="output_frame" type="string" value="$(arg output_frame)" />
+		<param name="max_track_error" type="double" value="$(arg max_track_error)" />
+		
+		<remap from="camera_image" to="$(arg cam_image_topic)" />
+		<remap from="camera_info" to="$(arg cam_info_topic)" />
+	</node>
+	<!-- launch master_control -->
+	<!--	<node pkg="" type="" name="" output="" /> -->
+	
+	<!-- launch potential_field -->
+	<!--	<node pkg="" type="" name="" output="" /> -->
+
+	<!-- launch line follower -->
+	<!--	<node pkg="" type="" name="" output="" /> -->
+	
+	<!-- launch right_wall -->
+	<!--	<node pkg="" type="" name="" output="" /> -->
+
+	<!-- launch saftey_control -->
+	<!--	<node pkg="" type="" name="" output="" /> -->
+
+
+	
+	<!-- launch zed -->
+    <include file="$(find zed_wrapper)/launch/zed.launch" />
+    <!-- launch teleop -->
+    <include file="$(find racecar)/launch/teleop.launch" />
+	<!-- launch tracker -->
+	<!-- <include file="$(find ar_localization)/launch/ar_tracker.launch" /> -->
+	<!-- launch localize -->
+    <include file="$(find ar_localization)/launch/localize.launch" />
+    
+
+</launch>

@@ -1,0 +1,12 @@
+<launch>
+  <!-- Load parameters -->
+  <group ns="/line_follower">
+    <rosparam command="load" file="$(find line_follower)/param/params.yaml"/>
+  </group>
+
+  <!-- Compress the debug image -->
+  <node name="debug_compresser" pkg="image_transport" type="republish" args="raw in:=/line_follower/visual_debug compressed out:=/line_follower/visual_debug"/>
+
+  <!-- Launch the vision node -->
+  <node name="vision_node" pkg="line_follower" type="VisionNode.py" output="screen"/>
+</launch>

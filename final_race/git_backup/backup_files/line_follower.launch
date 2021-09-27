@@ -1,0 +1,6 @@
+<launch>
+    <node name="image_proc" pkg="final_race" type="image_proc.py" />
+    <node name="line_tracker" pkg="final_race" type="line_tracker.py" />
+    <node name="pid_controller" pkg="final_race" type="pid_controller.py" />
+    <node name="line_follower_teleop" pkg="final_race" type="line_follower_teleop.py" />
+</launch>

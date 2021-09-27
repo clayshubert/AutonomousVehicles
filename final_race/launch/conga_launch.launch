@@ -1,0 +1,9 @@
+<launch>
+
+    <!-- run conga line node -->
+    <node name="conga_line" pkg="final_race" type="conga_line.py" output="screen" />
+
+    <!-- launch compact launch file -->
+    <include file="$(find final_race)/launch/compact_launch.launch" />
+
+</launch>

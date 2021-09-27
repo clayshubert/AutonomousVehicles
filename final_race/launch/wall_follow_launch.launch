@@ -1,0 +1,7 @@
+<launch>
+    <node name="wall_tracker" pkg="final_race" type="wall_tracker.py" output="screen" />
+    
+    <node name="pid_wall_follower" pkg="final_race" type="pid_wall_follower.py" output="screen" />
+    
+    <node name="wall_follower_nav" pkg="final_race" type="wall_follower_nav.py" output="screen" />
+</launch>

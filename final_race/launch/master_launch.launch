@@ -1,0 +1,20 @@
+<launch>
+    
+    <!-- launch compact launch file -->
+    <include file="$(find final_race)/launch/compact_launch.launch" />
+    <!-- compact_launch file runs teleop, ZED, and AR -->
+
+    <!-- launch master control node -->
+    <node name="master_control" pkg="final_race" type="master_control.py" output="screen" />
+
+    <!-- launch potential field nodes -->
+    <node name="potential_field" pkg="final_race" type="potential_field.py" output="screen" />
+
+<!-- launch line follower nodes -->
+    <!-- Launch the vision node -->
+    <include file="$(find line_follower)/launch/VisionNode.launch" />
+    <!-- Launch the control node -->
+    <include file="$(find line_follower)/launch/ControlNode.launch" />
+
+
+</launch>
